@@ -1,5 +1,5 @@
 # SI0056-Resource
-## Folder ini berisikan contoh-contoh penyelesaian dari model/algoritma dengan R Programming yang dibahas dalam mata kuliah Inteligensi dan Analitika Bisnis
+## Resource ini berisikan contoh-contoh penyelesaian dari model/algoritma dengan R Programming yang dibahas dalam mata kuliah Inteligensi dan Analitika Bisnis
 Modul 04 - Introduction to R
 
 Modul 05 - Introduction to Descriptive Analytics
