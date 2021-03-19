@@ -1,0 +1,98 @@
+---
+title: "Modul08-Simple Linear Regression"
+author: "Roni Yunis"
+date: "3/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Load Packages
+```{r}
+#Split dataset 
+library (caTools)
+#Predicting result visualization
+library(ggplot2)
+#Import format data xlsx
+library(readxl)
+
+```
+
+#Import dataset
+```{r}
+credit <- read_excel("data/Credit Risk Data.xlsx", sheet = "Base Data")
+head(credit)
+```
+
+Melihat dimensi dari data, dengan menggunakan fungsi dim()
+```{r}
+dim(credit)
+```
+Melihat struktur dari data, dengan menggunakan fungsi str()
+```{r}
+str(credit)
+```
+#Cek data kosong/missing value
+
+```{r}
+summary(credit)
+```
+
+
+
+Sekarang kita akan mencoba melihat korelasi antara Savings dengan MonthsEmployed. 
+
+```{r}
+#menghitung korelasi antar variabel
+korelasi <- cor(credit$MonthsEmployed, credit$Savings)
+korelasi
+```
+Ternyata nilai korelasinya adalah 0.04
+
+#Bagi dataset kedalam data training dan data testing
+```{r}
+splitdata <- sample.split(credit$MonthsEmployed, SplitRatio = 0.7)
+trainingset <- subset(credit, splitdata == TRUE)
+testingset <- subset(credit, splitdata == FALSE)
+```
+
+#Lakukan liner regresi sederhana pada data training
+```{r}
+lm.r <- lm(formula = Savings ~ MonthsEmployed,
+           data = trainingset)
+coef(lm.r)
+```
+#Prediksi model regresi dengan data testing
+```{r}
+yprediksi <- predict(lm.r, newdata = testingset)
+
+```
+
+
+#Visualasi hasil data training
+```{r}
+ggplot() + geom_point(aes(x = trainingset$MonthsEmployed,
+                          y = trainingset$Savings), colour = 'red') +
+  geom_line(aes(x = trainingset$MonthsEmployed,
+                y = predict(lm.r, newdata = trainingset)), colours = 'blue') +
+  ggtitle('Months.Employed vs Saving (Data Training)') +
+  xlab('Months Employed') +
+  ylab('Savings')
+```
+
+#Visualasi hasil data testing
+```{r}
+ggplot() + geom_point(aes(x = testingset$MonthsEmployed,
+                          y = testingset$Savings), colour = 'red') +
+  geom_line(aes(x = testingset$MonthsEmployed,
+                y = predict(lm.r, newdata = testingset)), colours = 'blue') +
+  ggtitle('Months Employed vs Savings (Data Testing)') +
+  xlab('Months Employed') +
+  ylab('Savings')
+```
+
+
+
