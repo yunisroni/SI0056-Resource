@@ -1,8 +1,9 @@
 Modul 08 - Simple Linear Regression
 Regresi liner sederhana menggambarkan hubungan liner antara dua variabel, yaitu variabel independen dan variabel dependen.
 Dalam pembahasan kali ini, kita akan membahas penerapannya dengan R.
-1. Load packages
-2. View Dataset
-3. Exploratory Data Analysis
-4. Bagi dataset kedalam data training dan testing
-5. Model Regresi Sederhana
+1. Pengantar
+2. Load packages
+3. View Dataset
+4. Exploratory Data Analysis
+5. Bagi dataset kedalam data training dan testing
+6. Model Regresi Sederhana
