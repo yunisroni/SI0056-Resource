@@ -1,5 +1,8 @@
 Modul 07 - Classification
 Dalam Modul 07 ini kita akan membahas beberapa Algorithma Klasifikasi yang dapat digunakan untuk memprediksi dan mengklasifikasi suatu nilai.
 1. Pengantar
-2. Decision Tree
-3. Random Forest
+2. Data Preparation
+3. EDA dan Visualisasi
+4. Membagi Dataset
+5. Model Klasifikasi dengan Decision Tree
+6. Model Klasifikasi dengan Random Forest
