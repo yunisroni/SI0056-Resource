@@ -84,7 +84,7 @@ Bisa dilihat bahwa untuk data training ada 140 baris data, dan untuk data testin
 ## liner regresi sederhana pada data training
 ```{r}
 lm.r <- lm(sales ~ facebook,
-           data = marketing)
+           data = trainingset)
 summary(lm.r)
 ```
 Berdasarkan output diatas bisa dijelaskan bahwa:
