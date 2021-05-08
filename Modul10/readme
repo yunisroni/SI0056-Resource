@@ -1,0 +1,7 @@
+Pada Modul 10 ini kita akan membahas mengenai Time Series Forecasting dengan menggunakan algoritma Prophet. Pembahasan meliputi:
+1. Pengantar
+2. Load Packages
+3. Data Preparation
+4. Exploratory Data Analysis
+5. Membuat Objek Time Series dengan Model Prophet
+6. Model Evaluation
