@@ -1,0 +1,8 @@
+Berikut ini kita akan membahas contoh penerapan Clustering dengan menggunakan Algoritma K-Means Clustering
+1. Pengantar
+2. Load Packages
+3. Data Preparation
+4. Menentukan jumlah klaster
+5. Membuat model klastering dengan K-Means Clustering
+6. Akurasi Model
+7. Interpretasi Hasil
