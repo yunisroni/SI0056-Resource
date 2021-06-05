@@ -1,0 +1,115 @@
+---
+title: "Modul 13 - Linear Optimization"
+author: "Roni Yunis"
+date: "6/1/2021"
+output: pdf_document
+---
+
+# Pengantar
+Optimasi Linier adalah metode untuk mencapai hasil terbaik dalam model matematika yang persyaratannya diwakili oleh hubungan linier. Secara umum optimasi linier adalah sebuah metode untuk mencapai hasil terbaik (misalnya keuntungan maksimum, atau biaya terendah) dalam sebuah model matematika yang seluruh kebutuhan dasarnya disajikan dalam hubungan linier. Penerapan optimasi linier dalam bidang bisnis sangat banyak sekali, misalnya menentukan biaya produksi optimal, menentukan asupan gizi program diet terbaik dengan biaya terendah, optimalisasi keuntungan penjualan, optimasi anggaran proyek, dan masih banyak lagi contoh-contoh yang lain.
+
+Ada beberapa hal yang harus dilakukan dalam membangun model optimasi linier, diantaranya adalah:
+
+1.	Identifikasi variabel keputusan (decisions) – nilai yang tidak diketahui yang ingin ditentukan oleh model.
+2.	Identifikasi fungsi tujuan (objectives) – kuantitas yang ingin kita minimalkan atau maksimalkan.
+3.	Identifikasi semua batasan yang sesuai (contraints) – batasan, persyaratan, atau batasan lain yang dimasukkan pada solusi apa pun, baik dari pertimbangan praktis atau teknologi atau oleh kebijakan manajemen.
+4.	Tulis fungsi tujuan dan batasan sebagai ekspresi matematika.
+
+
+# Load Packages
+```{r}
+# Package untuk optimasi liner
+library(lpSolve)
+```
+
+
+# Problem
+Di bawah ini ada bagan diet yang memberikan informasi tentang kalori, protein, karbohidrat, dan kandungan lemak untuk 4 jenis makanan. **Susanti** ingin diet dengan biaya minimal. Bagan dietnya adalah sebagai berikut:
+
+```{r}
+data <- data.frame("Nutrition" = c("Calories", "Protien (in grams)", "Carbohydrates ( in grams)", "Fat (in grams)", "Cost(in $)"), "Food1" = c( 400, 3, 2, 2, 0.50), "Food2" = c(200, 2, 2, 4, 0.20), "Food3" = c(150, 0, 4, 1, 0.30), "Food4" = c(500, 0, 4, 5, 0.80))
+
+data
+```
+
+Bagan tersebut memberikan kandungan nutrisi serta biaya per unit untuk setiap jenis makanan. Diet harus direncanakan sedemikian rupa sehingga setidaknya mengandung 500 kalori, 6 gram protein, 10 gram karbohidrat, dan 8 gram lemak.
+
+Apa yang harus dilakukan untuk memecahkan masalah tersebut?
+
+1. Identifikasi Variabel Keputusan : item makanan adalah variabel keputusan, dalam contoh misalnya.
+   Food1 = a
+   Food2 = b
+   Food3 = c
+   Food4 = d
+2. Tetapkan tujuan; Tujuan adalah ingin menghitung biaya diet yang paling minimum
+   $Z(min) = 0.5a + 0.2b + 0.3c + 0.8d$
+3. Definisikan Contraints
+   $400a + 200b + 150c + 500d >= 500$
+   $3a + 2b + 0c + 0d >= 6$
+   $2a + 2b + 4c + 4d >= 10$
+   $2a + 4b + 1c + 5d >= 8$  
+4. Tentukan Non negative restrictions: a>=0, b>=0, c>=0, d>=0
+
+Karena memiliki lebih dari dua variabel keputusan, kita dapat menyelesaikan masalah ini dengan R
+
+# Linear Optimization Model
+## Set Decision Variable
+```{r}
+objective.in <- c(0.5, 0.2, 0.3, 0.8)
+```
+
+
+## Contraint matrix
+```{r}
+const.mat <- matrix(c(400, 200, 150, 500, 3, 2, 0, 0, 2, 2, 4, 4, 2, 4, 1, 5), nrow = 4, byrow = TRUE)
+
+```
+
+## Defining contraints
+```{r}
+const_cal <-  500 
+const_prot <- 6  # in grams
+const_carb <- 10 # in grams
+const_fat <-  8  # in grams
+```
+
+## RHS for contraints
+```{r}
+const.rhs <- c(const_cal, const_prot, const_carb, const_fat)
+```
+
+## Direction for constraints
+```{r}
+const.dir <- c(">=", ">=", ">=", ">=")
+```
+
+## Finding Optimum Solution
+```{r}
+opt <- lp(direction = "min", objective.in , const.mat, const.dir, const.rhs)
+
+summary(opt)
+```
+## Objective value of a, b, c, d
+```{r}
+opt$solution
+```
+
+Dari hasil ini bisa dilihat bahwa 
+
++ Food1 = 0
++ Food2 = 3
++ Food3 = 1
++ Food4 = 0
+
+## Value of objective function at optimal point
+```{r}
+opt$objval
+```
+
+# Conclusion:
+Seperti yang kita lihat untuk solusi optimal berarti diet dengan biaya minimum, maka **Susanti** harus memiliki 0 unit Food1, 3 unit Food2, 1 unit Food3 dan 0 unit Food4. Biaya dietnya adalah $0,90 dan diet ini akan memberinya setidaknya 500 kalori, 6 gram protein, 10 gram karbohidrat, dan 8 gram lemak.
+
+# Referensi
+
+1. Linear Programming in R, https://www.r-bloggers.com/2018/08/linear-programming-in-r-2/
+2. Linear Optimization, https://rpubs.com/priyaash/582049
