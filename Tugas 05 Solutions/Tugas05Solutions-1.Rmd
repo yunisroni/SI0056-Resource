@@ -1,0 +1,85 @@
+---
+title: "Tugas 05 Solutions - Soal 1"
+author: "Roni Yunis"
+date: "6/16/2021"
+output: pdf_document
+---
+
+# Load Packages
+```{r}
+library(lpSolve)
+```
+
+**Soal No. 1**
+1. Identifikasi variabel keputusan
+
+Product 1 = P1
+Product 2 = P2
+
+2. Objective Function
+
+$Z = 20P1 + 60P2$
+
+3. Contraint Definition/Persamaan Linear 
+$30P1 + 20P2 <= 2700$
+
+$5P1 + 10P2 <= 850$
+
+$P1 + P2 <= 95$
+
+4. Non Negative Constraints: 
+P1 >= 0, P2 >= 0
+
+# Linear Optimization Model - SOal No. 1
+## Set Decision Variable
+```{r}
+SB <-  data.frame("P1"= c(30, 5, 1, 20),"P2"= c(20, 10, 1, 60))
+SB
+```
+
+```{r}
+obj.in <-  c(20, 60)
+```
+
+
+## Contraint Matrix
+```{r}
+const.mat <-  matrix(c(30, 5, 1, 20, 10, 1), nrow = 3, ncol = 2, byrow = FALSE)
+const.mat
+```
+
+## Defining Contraints
+```{r}
+const.WH <-  2700
+const.MH <-  850
+const.ton <-  95
+```
+
+## RHS for Contraints
+```{r}
+const.rhs  <-  c(const.WH, const.MH, const.ton)
+```
+
+## Direction for Contraints
+```{r}
+const.dir = c("<=", "<=", ">=")
+```
+
+## Finding Optimum Solution
+```{r}
+optimal.soal1 <- lp(direction = "max", obj.in, const.mat, const.dir, const.rhs)
+summary(optimal.soal1)
+```
+## Objective Value of P1 and P2
+```{r}
+optimal.soal1$solution
+```
+Dari hasil diatas, didapatkan bahwa, nilai P1 = 20, dan P2=75
+
+## Value of objective function at optimal point
+```{r}
+optimal.soal1$objval
+```
+# Conclusion
+Berdasarkan hasil optimasi yang didapatkan bahwa solusi optimal untuk nilai maksimal profit yang didapatkan adalah 4900
+
